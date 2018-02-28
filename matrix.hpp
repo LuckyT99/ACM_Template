@@ -1,7 +1,7 @@
 #include <iostream>
 
 //template <class Elem>
-typedef long long Elem;
+typedef int Elem;
 
 class matrix
 {
@@ -11,19 +11,19 @@ class matrix
 
   public:
     matrix();
-    matrix(unsigned int rows);
-    matrix(unsigned int rows, unsigned int cols, Elem val = 0);
-    matrix(unsigned int rows, unsigned int cols, Elem *arr);
-    matrix(unsigned int rows, unsigned int cols, Elem **arr);
+    matrix(int rows);
+    matrix(int rows, int cols, Elem val = 0);
+    matrix(int rows, int cols, Elem *arr);
+    matrix(int rows, int cols, Elem **arr);
     matrix(const matrix &val);
     ~matrix();
     unsigned int getRow() const;
     unsigned int getColumn() const;
     unsigned int getSize() const;
-    bool rerange(unsigned int rows, unsigned int cols);
-    void setElem(unsigned int rows, unsigned int cols, Elem val);
-    Elem getElem(unsigned int rows, unsigned int cols) const;
-    Elem *operator[](unsigned int rows);
+    bool rerange(int rows, int cols);
+    void setElem(int rows, int cols, Elem val);
+    Elem getElem(int rows, int cols) const;
+    Elem *operator[](int rows);
     matrix T();
     matrix &operator=(const matrix &rhs);
     matrix &operator+=(const matrix &rhs);
@@ -41,7 +41,7 @@ class matrix
     friend const matrix operator-(Elem lhs, const matrix &rhs);
     friend const matrix operator*(const matrix &lhs, Elem rhs);
     friend const matrix operator*(Elem lhs, const matrix &rhs);
-    friend const std::ostream &operator<<(std::ostream &os, const matrix &rhs);
+    friend std::ostream &operator<<(std::ostream &os, const matrix &rhs);
 };
 
 //-----------------------------------------------------------------------------
@@ -53,7 +53,7 @@ matrix::matrix()
     size = row * col;
     mat = nullptr;
 }
-matrix::matrix(unsigned int rows)
+matrix::matrix(int rows)
 {
     row = rows;
     col = rows;
@@ -67,7 +67,7 @@ matrix::matrix(unsigned int rows)
         }
     }
 }
-matrix::matrix(unsigned int rows, unsigned int cols, Elem val = 0)
+matrix::matrix(int rows, int cols, Elem val)
 {
     row = rows;
     col = cols;
@@ -78,7 +78,7 @@ matrix::matrix(unsigned int rows, unsigned int cols, Elem val = 0)
         mat[i] = val;
     }
 }
-matrix::matrix(unsigned int rows, unsigned int cols, Elem *arr)
+matrix::matrix(int rows, int cols, Elem *arr)
 {
     row = rows;
     col = cols;
@@ -89,7 +89,7 @@ matrix::matrix(unsigned int rows, unsigned int cols, Elem *arr)
         mat[i] = arr[i];
     }
 }
-matrix::matrix(unsigned int rows, unsigned int cols, Elem **arr)
+matrix::matrix(int rows, int cols, Elem **arr)
 {
     row = rows;
     col = cols;
@@ -130,7 +130,7 @@ unsigned int matrix::getSize() const
 {
     return size;
 }
-bool matrix::rerange(unsigned int rows, unsigned int cols)
+bool matrix::rerange(int rows, int cols)
 {
     if (rows * cols == size)
     {
@@ -143,24 +143,24 @@ bool matrix::rerange(unsigned int rows, unsigned int cols)
         return false;
     }
 }
-void matrix::setElem(unsigned int rows, unsigned int cols, Elem val)
+void matrix::setElem(int rows, int cols, Elem val)
 {
-    mat[(rows - 1) * cols + (cols - 1)] = val;
+    mat[(rows - 1) * col + (cols - 1)] = val;
 }
-Elem matrix::getElem(unsigned int rows, unsigned int cols) const
+Elem matrix::getElem(int rows, int cols) const
 {
-    return mat[(rows - 1) * cols + (cols - 1)];
+    return mat[rows * col + cols];
 }
-Elem *matrix::operator[](unsigned int rows)
+Elem *matrix::operator[](int rows)
 {
-    return &mat[(rows - 1) * col];
+    return &mat[rows * col];
 }
 matrix matrix::T()
 {
     matrix tmp(col, row);
-    for (int i = 1; i <= col; ++i)
+    for (int i = 0; i < col; ++i)
     {
-        for (int j = 1; j <= row; ++j)
+        for (int j = 0; j < row; ++j)
         {
             tmp[i][j] = getElem(j, i);
         }
@@ -272,13 +272,13 @@ const matrix operator*(const matrix &lhs, const matrix &rhs)
 {
     if (lhs.col == rhs.row)
     {
-        matrix tmp(lhs.col, lhs.col);
-        for (int i = 1; i <= lhs.row; ++i)
+        matrix tmp(lhs.row, rhs.col);
+        for (int i = 0; i < lhs.row; ++i)
         {
-            for (int j = 1; j <= rhs.col; ++j)
+            for (int j = 0; j < rhs.col; ++j)
             {
                 Elem sum = 0;
-                for (int k = 1; k <= lhs.col; ++k)
+                for (int k = 0; k < lhs.col; ++k)
                 {
                     sum += lhs.getElem(i, k) * rhs.getElem(k, j);
                 }
@@ -329,14 +329,14 @@ const matrix operator*(Elem lhs, const matrix &rhs)
     tmp *= lhs;
     return tmp;
 }
-const std::ostream &operator<<(std::ostream &os, const matrix &rhs)
+std::ostream &operator<<(std::ostream &os, const matrix &rhs)
 {
     if (rhs.mat != nullptr)
     {
-        for (int i = 1; i <= rhs.row; ++i)
+        for (int i = 0; i < rhs.row; ++i)
         {
-            os << rhs.getElem(i, 1);
-            for (int j = 2; j <= rhs.col; ++j)
+            os << rhs.getElem(i, 0);
+            for (int j = 1; j < rhs.col; ++j)
             {
                 os << ' ' << rhs.getElem(i, j);
             }
