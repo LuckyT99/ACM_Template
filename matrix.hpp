@@ -32,6 +32,7 @@ class matrix
     matrix &operator+=(Elem rhs);
     matrix &operator-=(Elem rhs);
     matrix &operator*=(Elem rhs);
+    matrix &operator%=(Elem rhs);
     friend const matrix operator+(const matrix &lhs, const matrix &rhs);
     friend const matrix operator-(const matrix &lhs, const matrix &rhs);
     friend const matrix operator*(const matrix &lhs, const matrix &rhs);
@@ -41,6 +42,7 @@ class matrix
     friend const matrix operator-(Elem lhs, const matrix &rhs);
     friend const matrix operator*(const matrix &lhs, Elem rhs);
     friend const matrix operator*(Elem lhs, const matrix &rhs);
+    friend const matrix operator%(const matrix &lhs, Elem rhs);
     friend std::ostream &operator<<(std::ostream &os, const matrix &rhs);
 };
 
@@ -240,6 +242,14 @@ matrix &matrix::operator*=(Elem rhs)
     }
     return *this;
 }
+matrix &matrix::operator%=(Elem rhs)
+{
+    for (int i = 0; i < size; ++i)
+    {
+        mat[i] %= rhs;
+    }
+    return *this;
+}
 const matrix operator+(const matrix &lhs, const matrix &rhs)
 {
     if (lhs.row == rhs.row && lhs.col == rhs.col)
@@ -327,6 +337,12 @@ const matrix operator*(Elem lhs, const matrix &rhs)
 {
     matrix tmp = rhs;
     tmp *= lhs;
+    return tmp;
+}
+const matrix operator%(const matrix &lhs, Elem rhs)
+{
+    matrix tmp = lhs;
+    tmp %= rhs;
     return tmp;
 }
 std::ostream &operator<<(std::ostream &os, const matrix &rhs)
