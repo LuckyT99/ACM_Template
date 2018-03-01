@@ -1,6 +1,6 @@
 /*
-SPFA,优先队列优化的 Bellman-Ford 算法,优先队列优化且允许重入队的 Dijkstra 算法;
-需要头文件 queue 用于优先队列,list 用于邻接表;
+SPFA, 优先队列优化的 Bellman-Ford 算法, 优先队列优化且允许重入队的 Dijkstra 算法;
+需要头文件 queue 用于优先队列, list 用于邻接表;
 需要在调用函数前初始化 dis 数组;
 */
 
