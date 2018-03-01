@@ -1,5 +1,5 @@
 /*
-优先队列优化的 dijkstra 算法;
+SPFA,优先队列优化的 Bellman-Ford 算法,优先队列优化且允许重入队的 Dijkstra 算法;
 需要头文件 queue 用于优先队列,list 用于邻接表;
 需要在调用函数前初始化 dis 数组;
 */
@@ -15,7 +15,7 @@ class dist //类 dist 存储节点号和距离
     }
 };
 
-void dijkstra(int s, long long dis[], const list<dist> rel[]) //s 是源节点号, dis 数组存储结果, rel数组是邻接表
+void spfa(int s, long long dis[], const list<dist> rel[]) //s 是源节点号, dis 数组存储结果, rel数组是邻接表
 {
     priority_queue<dist> mindis; //存储节点到源节点的最小距离, 距离小的在前
     dis[s] = 0;                  //源节点与自身距离
