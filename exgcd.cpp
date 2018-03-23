@@ -1,5 +1,5 @@
 /*
-a * x + b * y == 1;
+a * x + b * y == gcd(a, b);
 */
 
 long long exgcd(long long a, long long b, long long &x, long long &y)
