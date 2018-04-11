@@ -30,7 +30,7 @@ BinaryIndexedTree::BinaryIndexedTree()
 BinaryIndexedTree::BinaryIndexedTree(int val)
 {
     _size = val;
-    _bit = new ELEM[val + 1];
+    _bit = new ELEM[val + 1]();
 }
 BinaryIndexedTree::~BinaryIndexedTree()
 {
