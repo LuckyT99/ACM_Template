@@ -1,16 +1,17 @@
 class disjointSet
 {
   private:
-    unsigned int count, size;
+    unsigned int count, size, sizeofSet;
     int *set;
 
   public:
     disjointSet();
-    disjointSet(int val);
+    disjointSet(int val, bool without0 = false);
     ~disjointSet();
     unsigned int getCount() const;
     unsigned int getCount(int val) const;
     unsigned int getSize() const;
+    unsigned int constFind(int val) const;
     unsigned int find(int val);
     bool merge(int lhs, int rhs);
 };
@@ -21,12 +22,13 @@ disjointSet::disjointSet()
     size = 0;
     set = nullptr;
 }
-disjointSet::disjointSet(int val)
+disjointSet::disjointSet(int val, bool without0)
 {
     count = val;
     size = val;
-    set = new int[size];
-    for (int i = 0; i < size; ++i)
+    sizeofSet = val + (unsigned int)without0;
+    set = new int[sizeofSet];
+    for (int i = 0; i < sizeofSet; ++i)
     {
         set[i] = -1;
     }
@@ -41,15 +43,19 @@ unsigned int disjointSet::getCount() const
 }
 unsigned int disjointSet::getCount(int val) const
 {
-    while (set[val] >= 0)
-    {
-        val = set[val];
-    }
-    return -set[val];
+    return -set[constFind(val)];
 }
 unsigned int disjointSet::getSize() const
 {
     return size;
+}
+unsigned int disjointSet::constFind(int val) const
+{
+    while (set[val] >= 0)
+    {
+        val = set[val];
+    }
+    return val;
 }
 unsigned int disjointSet::find(int val)
 {
