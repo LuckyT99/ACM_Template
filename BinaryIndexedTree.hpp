@@ -39,7 +39,7 @@ BinaryIndexedTree::~BinaryIndexedTree()
 ELEM BinaryIndexedTree::getSum(int pos)
 {
     ELEM res = 0;
-    for (; pos <= _size; pos -= _lowbit(pos))
+    for (; pos; pos -= _lowbit(pos))
     {
         res += _bit[pos];
     }
@@ -53,6 +53,6 @@ bool BinaryIndexedTree::update(int pos, ELEM val)
     }
     for (; pos <= _size; pos += _lowbit(pos))
     {
-        _bit += val;
+        _bit[pos] += val;
     }
 }
